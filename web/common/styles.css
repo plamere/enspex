@@ -1,0 +1,82 @@
+
+.centered {
+    text-align:center;
+}
+
+h1 {
+    text-align:center;
+}
+
+
+h2 {
+    text-align:center;
+}
+
+
+#content {
+}
+
+#all_results {
+    text-align:center;
+}
+
+
+#info {
+    margin:20px;
+    text-align:center;
+    font-size:18px;
+}
+
+#footer {
+    margin-top:10px;
+    padding-bottom:10px;
+    text-align:center;
+    font-size:12px;
+}
+
+.sp-album-art {
+    width:300px;
+    height:300px;
+}
+
+.sp-title {
+    width:280px;
+    height:28px;
+    font-size:18px;
+    padding-left:8px;
+    padding-right:8px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+}
+
+.sp-info {
+    text-align:center;
+}
+
+.sp-controls {
+    margin-top:4px;
+}
+
+.sp-artist {
+    text-align:center;
+    width:280px;
+    height:28px;
+    font-size:14px;
+    padding-left:8px;
+    padding-right:8px;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.sp-player {
+    background-color:#111111;
+    color:#ffffff;
+    width:300px;
+    padding-bottom:8px;
+    margin-bottom:8px;
+    margin-top:8px;
+    margin-left:auto;
+    margin-right:auto;
+}

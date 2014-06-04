@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chill Radio</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link type="text/css" href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="../common/spotify_en_tools.js"></script>
+    <link type="text/css" href="../common/styles.css" rel="stylesheet" />
+  </head>
+
+<body>
+ <div class='container font-light'>
+   <div id='content' class="col-md-offset-2 col-md-8">
+    <h2 id='title'> Chill Radio </h2>
+    <div class ='description'>
+        This web app creates an artist radio of low energy songs using the Spotify and Echo Nest APIs.
+        Type in the name of a seed artist and you'll get a playlist of chill songs by similar artists.
+        This example uses 
+        <a href="http://developer.echonest.com/docs/v4/playlisting.html"> The Echo Nest playlist API</a> 
+        and the <a href="https://developer.spotify.com/spotify-web-api/get-several-tracks/">Spotify Web API</a>.
+    </div>
+    <br>
+    <div id='seed' class='centered'>
+        <span> Seed artist:
+            <input title="Artist" type="text"  size=34 id="artist" name="artist" value='Led Zeppelin'/>
+        </span>
+        <button class="btn btn-sm" value="go" id="go" name="go"> Go </button>
+    </div>
+    <div id="info"> </div>
+    <div id="all_results"> </div>
+    <div id='footer'> 
+        Powered by <a href="http://the.echonest.com">The Echo Nest</a> and <a href="http://spotify.com">Spotify</a>. 
+    </div>
+  </div>
+ </div>
+</body>
+
+<script type="text/javascript">
+
+jQuery.ajaxSettings.traditional = true; 
+var config = getConfig();
+
+function fetchArtistPlaylist(artist,  wandering, variety) {
+    var url = config.echoNestHost + 'api/v4/playlist/static';
+    $("#all_results").empty();
+    info("Creating the playlist ...");
+    $.getJSON(url, { 'artist': artist, 
+            'api_key': config.apiKey,
+            'bucket': [ 'id:' + config.spotifySpace, 'tracks'], 
+            'song_selection' : 'energy-bottom',
+            'sort' : 'energy-asc',
+            'limit' : true,
+            'variety' : 1, 'results': 40, 'type':'artist-radio',  }) 
+        .done(function(data) {
+            info("");
+            if (! ('songs' in data.response)) {
+                info("Can't find that artist");
+            } else {
+                var title = "Artist radio for " + artist;
+                getSpotifyPlayer(data.response.songs, function(player) {
+                    console.log('got the player');
+                    $("#all_results").append(player);
+                });
+            }
+        })
+        .error( function() {
+            info("Whoops, had some trouble getting that playlist");
+        }) ;
+}
+
+
+function newArtist() {
+    var artist = $("#artist").val();
+    fetchArtistPlaylist(artist, false, .2);
+}
+
+function info(txt) {
+    $("#info").text(txt);
+}
+
+function initUI() {
+    $("#artist").on('keydown', function(evt) {
+        if (evt.keyCode == 13) {
+            newArtist();
+        }
+    });
+    $("#go").on("click", function() {
+        newArtist();
+    });
+}
+
+$(document).ready(function() {
+    initUI();
+});
+
+</script>
+</html>

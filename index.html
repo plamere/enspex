@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>The Echo Nest / Spotify Developer </title>
+    <!-- Bootstrap core CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="styles.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">The Echo Nest / Spotify APIs</a>
+        </div>
+        <div class="navbar-collapse collapse">
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>The Echo Nest / Spotify APIs</h1>
+        <p class="lead"> Build your music apps with the industry’s best music APIs. </p>
+        <div>
+            <img width="320px" src="images/logo.png">
+            <img width="240px" src="images/spotify.png">
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-6">
+         <h2> What's this? </h2>
+         <p>
+          The Echo Nest and Spotify APIs provides broad and deep data on millions of artists and songs, making it
+          easy for you to create an awesome listening experience for your users.  You can tap into the power of the
+          tightly linked Echo Nest and Spotify APIs to build world-class music apps that take advantage of all of the
+          capabilities and deep data provided by both APIs. The Spotify and Echo Nest teams are working to make it as
+          easy as possible for developers to use the Spotify and The Echo Nest APIs together. In particular we’re
+          working to make sure that the Echo Nest has the most up-to-date view of the Spotify catalog 
+              and you can use Spotify artist and track IDs in any Echo Nest call that accepts Echo Nest artist and track IDs. 
+          </ul>
+
+         </p>
+        </div>
+
+        <div class="col-md-6">
+         <h2> Getting Started </h2>
+         To get started, you’ll need to take two quick steps. It should take less than a minute!
+         
+         <p>
+         <ol class="btn-grp">
+             <a class="btn btn-block btn-primary" href="https://developer.echonest.com/account/register"> 
+                Register for an Echo Nest API key </a>
+             <a class="btn btn-block btn-success" 
+                href="https://developer.spotify.com/my-applications/#!/applications"> 
+                Register your Spotify application </a>
+         </ol>
+
+         Once you've created an account, have received your API key and application credentials, check out some of
+         our demos, take a look at the examples, get inspiration from the labs, download one of our client libraries
+         and start building cool stuff.
+
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Demos</h2>
+          <p> 
+          We have lots of demonstration apps that show you how to do just about anything possible with The Spotify
+          and Echo Nest APIs, from retrieving basic artist data, to advanced personalized, dynamic playlisting. Check
+          out the demos at the The Spotify /  Echo Nest Demo Page
+        </div>
+        <div class="col-md-6">
+          <h2>Examples</h2>
+          <p> The best way to understand an API is by diving in and seeing working examples in action. Check out the
+          examples on the Spotify / Echo Nest examples git repo. </p>
+       </div>
+
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Resources</h2>
+          <p> Download one of our many Echo Nest and Spotify client libraries.
+          </p>
+        </div>
+
+        <div class="col-md-6">
+          <h2>API Documentation</h2>
+          <p> Detailed API documentation can be found online at:
+          <ul>
+          <li> <a href="http://developer.echonest.com">The Echo Nest API documentation</a>
+          <li><a href="https://developer.spotify.com/spotify-web-api/">The Spotify Web API documentation</a>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Need more help?</h2>
+          <p> If you have a problem or need more help with the Echo Nest or Spotify APIs check out our 
+          <a href="http://developer.echonest.com/forums">Echo Nest support forums</a> 
+            and the <a href="https://developer.spotify.com/support/">Spotify support page</a>.
+          </p>
+        </div>
+      </div>
+
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+<h2>How to use the Echo Nest and Spotify APIs together</h2>
+
+We use The Echo Nest’s Project Rosetta Stone to make it easy to work with Spotify IDs with The Echo Nest API.
+For example, Radiohead has a Spotify ID of 'spotify:artist:4Z8W4fKeB5YxbusRsdQVPb'. To find biographies for Radiohead
+using The Echo Nest API, starting from the Spotify ID, you would issue a query like this:
+
+<pre>
+http://developer.echonest.com/api/v4/artist/biographies?api_key=FILDTEOIK2HBORODV&id=spotify:artist:4Z8W4fKeB5YxbusRsdQVPb
+</pre>
+
+Similarly, you can query for detailed information for a Spotify track with a query like so:
+
+<pre>
+http://developer.echonest.com/api/v4/song/profile?api_key=YOUR_API_KEY&track_id=spotify:track:4toSP60xmDNCFuXly8ywNZ&bucket=id:spotify&bucket=audio_summary
+</pre>
+
+<p>
+You can also retrieve Spotify IDs from any Echo Nest call that returns artist, song or track info. To do this, you
+use the bucket=id:spotify parameter on any call that returns artists, songs or tracks. As an example, to find artists
+similar to Radiohead, with Spotify foreign IDs returned, issue a call like this:
+
+<pre>
+http://developer.echonest.com/api/v4/artist/similar?api_key=FILDTEOIK2HBORODV&id=spotify:artist:4Z8W4fKeB5YxbusRsdQVPb&bucket=id:spotify
+</pre>
+<p>
+The returned list of similar artists include the spotify IDs in the output like so:
+<pre>
+{
+    "foreign_ids": [
+        {
+            "catalog": "spotify",
+            "foreign_id": "spotify:artist:4CvTDPKA6W06DRfBnZKrau"
+        }
+    ],
+    "id": "ARH1N081187B9AC562",
+    "name": "Thom Yorke"
+}
+</pre>
+      </div>
+  </div>
+
+      <footer>
+        <p>&copy; Company 2014</p>
+      </footer>
+    </div> <!-- /container -->
+ 
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

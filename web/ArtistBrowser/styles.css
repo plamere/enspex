@@ -1,0 +1,8 @@
+.artist {
+    margin-top:40px;
+}
+
+.artist img {
+    width:600px;
+    cursor:pointer;
+}

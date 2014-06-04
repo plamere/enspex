@@ -1,0 +1,28 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.jumbotron {
+  max-width: 730px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+  background-color:white;
+}
+
+.jumbotron h1 {
+    font-size:36px;
+}
+
+.container {
+  max-width: 730px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+ol {
+    margin-top:20px;
+    margin-bottom:20px;
+    margin-left:-40px;
+}
