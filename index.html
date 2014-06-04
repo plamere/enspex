@@ -41,8 +41,8 @@
             <img width="240px" src="images/spotify.png">
         </div>
       </div>
+      <hr>
     </div>
-
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
@@ -57,7 +57,6 @@
           working to make sure that the Echo Nest has the most up-to-date view of the Spotify catalog 
               and you can use Spotify artist and track IDs in any Echo Nest call that accepts Echo Nest artist and track IDs. 
           </ul>
-
          </p>
         </div>
 
@@ -77,24 +76,117 @@
          Once you've created an account, have received your API key and application credentials, check out some of
          our demos, take a look at the examples, get inspiration from the labs, download one of our client libraries
          and start building cool stuff.
-
         </div>
       </div>
 
       <hr>
 
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <h2>Demos</h2>
           <p> 
-          We have lots of demonstration apps that show you how to do just about anything possible with The Spotify
-          and Echo Nest APIs, from retrieving basic artist data, to advanced personalized, dynamic playlisting. Check
-          out the demos at the The Spotify /  Echo Nest Demo Page
-        </div>
-        <div class="col-md-6">
-          <h2>Examples</h2>
+          We have a number of demonstration and example apps that show you how to do just about 
+          anything possible with The Spotify and Echo Nest APIs, from retrieving basic artist data, 
+          to advanced personalized, dynamic playlisting. 
+
+          <h3> Examples </h3>
           <p> The best way to understand an API is by diving in and seeing working examples in action. Check out the
-          examples on the Spotify / Echo Nest examples git repo. </p>
+          examples on the Echo Nest / Spotify <a href="https://github.com/plamere/enspex">git repo</a>. </p>
+          <ul>
+             <li> <a href="http://static.echonest.com/enspex/web/ArtistBrowser/"> Similar Artist Browser</a> 
+             Given a seed artist, this app shows images of similar artists.
+             <li> <a href="http://static.echonest.com/enspex/web/SimplePlaylist/"> Simple Playlist </a> 
+             Creates an Echo Nest artist radio playlist with the
+             <a href="https://developer.spotify.com/technologies/widgets/spotify-play-button/">Spotify Play Button</a>.
+             <li> <a href="http://static.echonest.com/enspex/web/SimplePlaylistWebAPI/"> Simple Playlist with Web API</a> 
+             Creates an Echo nest artist radio playlist using the 
+             <a href="https://developer.spotify.com/spotify-web-api/">Spotify Web API</a>.
+             <li> <a href="http://static.echonest.com/enspex/web/ChillRadio/"> Chill Radio </a> 
+                 Creates an artist radio of low energy songs using the Spotify and Echo Nest APIs
+          </ul>
+
+          <h3> Demonstrations </h3>
+          These are more sophisticated apps that demonstrate the power of using The Echo Nest and the Spotify APIs together.
+          <ul>
+              <h3 id='3dmm'>The 3D Music Maze</h3>
+              <p> <i> Music exploration as a game</i> </p>
+              <img class='ico' src="images/3dmm.png"> 
+              <p>
+                The 3D Music Maze is a WebGL app that lets you wander around a Castle Wolfenstein style maze and 
+                sample music and enjoy the album art.  
+                <div> <a class='' href="http://static.echonest.com/GenreBrowser/">The Source</a> </div>
+              </p>
+              <br style="clear:both;" />
+              <div class='visit'> 
+                <a class='btn btn-primary' 
+                    href="http://labs.echonest.com/3dServer/maze.html">The 3D Music Maze</a> 
+              </div>
+              <hr>
+
+              <h3 id='3dmm'>The Genre Browser</h3>
+              <p> <i> Browse through the many hundreds of genres to discover new artists</i> </p>
+              <img class='ico' src="images/genre_browser.png"> 
+              <p>
+                With The Genre Browser you can learn about a new genres. You can read about the background and history of the genre, 
+                listen to its music, learn about the genre’s key artists and more. 
+                <div> <a class='' href="https://github.com/plamere/GenreBrowser">The Source</a> </div>
+              </p>
+              <br style="clear:both;" />
+              <div class='visit'> 
+                <a class='btn btn-primary' 
+                    href="http://static.echonest.com/GenreBrowser/">The Genre Browser</a> 
+              </div>
+              <hr>
+
+              <h3 id='3dmm'>Music Popcorn</h3>
+              <p> <i> Dynamic visualization of the genre space</i> </p>
+              <img class='ico' src="images/popcorn.png"> 
+              <p>
+                Music Popcorn is a visualization of the music space that lets you explore and learn about the many different music genres.
+                <div> <a class='' href="https://github.com/plamere/SpotifyPopcorn">The Source</a> </div>
+              </p>
+              <br style="clear:both;" />
+              <div class='visit'> 
+                <a class='btn btn-primary' 
+                    href="http://static.echonest.com/SpotifyPopcorn/">Music Popcorn</a> 
+              </div>
+              <hr>
+
+                  <h3 id='btf'>Boil the Frog</h3>
+                  <p> <i> Create seamless genre-transitioning playlists between artists</i> </p>
+                  <img class='ico' src="images/frog.png"> 
+                  <b> TBD </b>
+                  <p>
+                  Boil the Frog lets you create a playlist of songs that gradually takes you from one music style to
+                  another. It's like the proverbial frog in the pot of water. If you heat up the pot slowly enough,
+                  the frog will never notice that he's being made into a stew and jump out of the pot. With a Boil
+                  the frog playlist you can do the same, but with music. You can generate a playlist that will take
+                  the listener from one style of music to the other, without the listener ever noticing that they
+                  are being made into a stew.
+                    <a class='' href="http://github.com/plamere/boilthefrog">The Source</a> 
+                    </p>
+                  <br style="clear:both;" />
+                  <div class='visit'> 
+                    <a class='btn btn-primary' href="http://static.echonest.com/frog"> Boil the Frog</a> 
+                   </div>
+                  <hr>
+
+              <h3 id='rtmt'>Roadtrip Mixtape</h3>
+              <p> <i> Create a mixtape of local artists for your roadtrip</i> </p>
+              <img class='ico' src="images/rtmt.png"> 
+              <p> <b> TBD</b>
+              Roadtrip Mixtape is an application that you can use to create road trip playlists. 
+              Type in the name of your
+              starting and ending points, and the application will create a playlist of music by artists that
+              from the area you are traveling through. 
+                <div> <a class='' href="https://github.com/plamere/RoadtripMixtape">The Source</a> </div>
+              </p>
+              <br style="clear:both;" />
+              <div class='visit'> 
+                <a class='btn btn-primary' 
+                    href="http://labs.echonest.com/CityServer/roadtrip.html">Roadtrip Mixtape</a> 
+              </div>
+              <hr>
        </div>
 
       </div>
@@ -102,7 +194,10 @@
       <div class="row">
         <div class="col-md-6">
           <h2>Resources</h2>
-          <p> Download one of our many Echo Nest and Spotify client libraries.
+          <p> Download one of our many <a href="http://developer.echonest.com/client_libraries.html">Echo Nest</a> 
+          and <a href="https://developer.spotify.com/spotify-web-api/code-examples/">Spotify</a> client libraries.
+          Follow along with our tutorials (<a href="https://developer.echonest.com/tutorial-overview.html">Echo Nest</a>, <a
+          href="https://developer.spotify.com/spotify-web-api/tutorial/">Spotify</a>).
           </p>
         </div>
 
@@ -135,7 +230,7 @@ For example, Radiohead has a Spotify ID of 'spotify:artist:4Z8W4fKeB5YxbusRsdQVP
 using The Echo Nest API, starting from the Spotify ID, you would issue a query like this:
 
 <pre>
-http://developer.echonest.com/api/v4/artist/biographies?api_key=FILDTEOIK2HBORODV&id=spotify:artist:4Z8W4fKeB5YxbusRsdQVPb
+http://developer.echonest.com/api/v4/artist/biographies?api_key=YOUR_API_KEY&id=spotify:artist:4Z8W4fKeB5YxbusRsdQVPb
 </pre>
 
 Similarly, you can query for detailed information for a Spotify track with a query like so:
@@ -150,7 +245,7 @@ use the bucket=id:spotify parameter on any call that returns artists, songs or t
 similar to Radiohead, with Spotify foreign IDs returned, issue a call like this:
 
 <pre>
-http://developer.echonest.com/api/v4/artist/similar?api_key=FILDTEOIK2HBORODV&id=spotify:artist:4Z8W4fKeB5YxbusRsdQVPb&bucket=id:spotify
+http://developer.echonest.com/api/v4/artist/similar?api_key=YOUR_API_KEY&id=spotify:artist:4Z8W4fKeB5YxbusRsdQVPb&bucket=id:spotify
 </pre>
 <p>
 The returned list of similar artists include the spotify IDs in the output like so:
@@ -170,7 +265,7 @@ The returned list of similar artists include the spotify IDs in the output like 
   </div>
 
       <footer>
-        <p>&copy; Company 2014</p>
+        <p>&copy; The Echo Nest 2014</p>
       </footer>
     </div> <!-- /container -->
  

@@ -12,7 +12,8 @@ body {
 }
 
 .jumbotron h1 {
-    font-size:36px;
+    font-size:44px;
+    font-weight:thin;
 }
 
 .container {
@@ -25,4 +26,12 @@ ol {
     margin-top:20px;
     margin-bottom:20px;
     margin-left:-40px;
+}
+
+.ico {
+    float:left;
+    width:140px;
+    margin-top:6px;
+    margin-right:10px;
+    margin-bottom:10px;
 }

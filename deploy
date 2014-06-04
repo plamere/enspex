@@ -1,0 +1,1 @@
+s3cmd sync --exclude '.git/*' --exclude 'web/archive/*' --acl-public .  s3://static.echonest.com/enspex/
