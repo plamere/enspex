@@ -3,7 +3,7 @@
 function getConfig() {
     return {
         apiKey: "ECLJI0GPBJVEXSZDT",
-        spotifySpace: "spotifyv2-ZZ",
+        spotifySpace: "spotify",
         echoNestHost: "http://developer.echonest.com/"
     };
 }
