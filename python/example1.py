@@ -12,7 +12,7 @@ sp = spotipy.Spotify()
 
 name = 'weezer'
 if len(sys.argv) > 1:
-    name = ' '.joi(sys.argv[1:])
+    name = ' '.join(sys.argv[1:])
 
 spids = []
 response = en.get('artist/similar', name=name, bucket='id:spotify', limit=True)
