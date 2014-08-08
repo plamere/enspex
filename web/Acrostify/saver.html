@@ -1,0 +1,201 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="dist/sp-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Listen like a Canadian</title>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/underscore-min.js"></script>
+    <!-- Custom styles for this template -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<script>
+
+var g_access_token = '';
+
+function getUsername(callback) {
+    var url = 'https://api.spotify.com/v1/me';
+    $.ajax(url, {
+        dataType: 'json',
+        headers: {
+            'Authorization': 'Bearer ' + g_access_token
+        },
+        success: function(r) {
+            callback(r.id);
+        },
+        error: function(r) {
+            callback(null);
+        }
+    });
+}
+
+function createPlaylist(username, name, callback) {
+    var url = 'https://api.spotify.com/v1/users/' + username + '/playlists';
+    $.ajax(url, {
+        type: 'POST',
+        data: JSON.stringify({
+            'name': name,
+            'public': false
+        }),
+        dataType: 'json',
+        headers: {
+            'Authorization': 'Bearer ' + g_access_token,
+            'Content-Type': 'application/json'
+        },
+        success: function(r) {
+            callback(r.id);
+        },
+        error: function(r) {
+            callback(null);
+        }
+    });
+}
+
+function addTracksToPlaylist(username, playlist, tracks, start, callback) {
+   var maxTracksPerPlaylistAdd = 100;
+    var url = 'https://api.spotify.com/v1/users/' + username +
+        '/playlists/' + playlist +
+        '/tracks';
+   var thisTracks = tracks.slice(start, start + maxTracksPerPlaylistAdd);
+
+    $.ajax(url, {
+        type: 'POST',
+        data: JSON.stringify(thisTracks),
+        dataType: 'json',
+                processData:false,
+        headers: {
+            'Authorization': 'Bearer ' + g_access_token,
+            'Content-Type': 'application/json'
+        },
+        success: function(r) {
+            if (start + maxTracksPerPlaylistAdd >= tracks.length) {
+                    callback('good');
+            } else {
+                status(Math.round(100 * start / tracks.length)  + "% saved");
+                addTracksToPlaylist(username, playlist, tracks,
+                    start + maxTracksPerPlaylistAdd, callback);
+            }
+        },
+        error: function(r, status, err) {
+            callback(null);
+        }
+    });
+}
+
+function status(msg) {
+    $("#status").text(msg);
+}
+
+function doit() {
+    // parse hash
+    var hash = location.hash.replace(/#/g, '');
+    var all = hash.split('&');
+    var maxTracks = 10;
+    var args = {};
+
+    all.forEach(function(keyvalue) {
+        var idx = keyvalue.indexOf('=');
+        var key = keyvalue.substring(0, idx);
+        var val = keyvalue.substring(idx + 1);
+        args[key] = val;
+    });
+
+    if (typeof(args['access_token']) != 'undefined') {
+        // got access token
+        g_access_token = args['access_token'];
+    }
+
+    var dataForPlaylist  = JSON.parse(localStorage.getItem('playlist'));
+
+    getUsername(function(username) {
+        createPlaylist(username, dataForPlaylist.title, function(playlist) {
+            if (playlist) {
+                addTracksToPlaylist(username, playlist, dataForPlaylist.tracks, 0, function(ok) {
+                    if (ok) {
+                        $('#playlistlink').attr('href', 
+                            'spotify:user:'+username+':playlist:'+playlist);
+                        $("#title").text(dataForPlaylist.title);
+                        $('#done').show();
+                        $('#creating').hide();
+                    } else {
+                        $('#error').show();
+                        $('#creating').hide();
+                    }
+                });
+            } else {
+                $("#error").show();
+                $('#creating').hide();
+            }
+    });
+  });
+}
+
+$(document).ready(
+    function() {
+        doit();
+    }
+);
+
+</script>
+<style type="text/css">
+
+    body {
+        background-color: #333;
+        color: #fff;
+        text-align:center;
+        font-size:24px;
+    }
+
+    .site-wrapper {
+        margin:20px;
+    }
+
+
+    #info {
+        margin:20px;
+        margin-top:30px;
+        margin-bottom:40px;
+    }
+
+    #title {
+        font-size:48px;
+    }
+
+</style>
+</head>
+
+<body>
+    <div class="container site-wrapper">
+        <div class="site-wrapper-inner">
+            <div id="creating" style="text-align: center;">
+                <h1>Creating playlist...</h1>
+                <div id="status" style="text-align: center;"> </div>
+            </div>
+            <div id="done" style="display: none;">
+                <h1 class='text-primary' >Acrostify</h1>
+                <h2 class='text-primary' >Playlist saved to Spotify</h2>
+                <!--<div id='info'> Playlist saved as: <div id="title" class="text-primary"> </div></div> -->
+                <div id='info'> </div> 
+                <p>
+                    <a class="btn btn-lg btn-primary btn-success" id="playlistlink">
+                        Open playlist in Spotify
+                    </a>
+                </p>
+            </div>
+            <div id="error" style="display: none;">
+                <h1 class='text-warning' >Trouble!</h1>
+                <div id='einfo'> Trouble saving that playlist.</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

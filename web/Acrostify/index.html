@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link type="text/css" href="styles.css" rel="stylesheet" />
+    <link href="dist/sp-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Acrostify</title>
+    <!-- Custom styles for this template -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+  <body >
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand"
+          href="index.html"><span>Acrostify</span></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <a href="https://www.spotify.com/ca/download" 
+            class="btn btn-primary navbar-btn navbar-right">Get Spotify</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div id='top' class="jumbotron jumbotron-inverse jumbotron-hero sp-jumbotron-custom-inverse">
+      <div class="container-fluid" id="jumbo-dialog">
+        <h1 id='ttitle' >Acrostify</h1>
+        <p id='ttext'>
+          Create a Spotify playlist with a secret message hidden as an acrostic.
+        </p>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="lead pull-left"> Genre: </p>
+                    <div id="genre-container">
+                        <select id='genre' data-placeholder="Choose a genre" 
+                              class="form-control input-md" tabindex="2">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <p class="lead pull-left"> Secret message: </p>
+                    <input id='message' type="text" 
+                        class="form-control input-md" placeholder="Type your secret message">
+                </div>
+            </div>
+        </div>
+        <p><a class="btn btn-primary btn-lg" id='go' role="button">Acrostify</a></p>
+      </div>
+    </div>
+
+    <div class="container" id="results">
+        <div id='buttons'>
+            <span id="play-buttons" class="btn-group">
+              <button id='playPrev' class="btn btn-default"><i class="glyphicon glyphicon-backward"></i></button> </li>
+              <button id='playPlay' class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button> </li>
+              <button id='playNext' class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> </li>
+            </span>
+            <button id='save' class="btn btn-primary pull-right">Save to Spotify</button> 
+        </div>
+
+        <table id="song-table" class="table table-bordered table-striped table-hover">
+            <thead> </thead>
+            <tbody id="trows"> </tbody>
+        </table>
+    </div>
+
+    <div id="footer">
+      <div class="container text-center">
+            <p class="text-muted">
+                Powered by <a href="http://spotify.com">Spotify</a> and
+                <a href="http://the.echonest.com">The Echo Nest</a>.
+                Created by <a href="http://twitter.com/plamere">@plamere</a>.
+            </p>
+
+      </div>
+    </div>
+    <script src="lib/jquery-1.11.1.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/underscore-min.js"></script>
+
+<script>
+"use strict";
+
+var audio;
+
+function shrinkHeader() {
+    $("#ttext").animate( {'font-size': '4px'}, 400, 'swing', 
+        function() {
+            $("#ttext").hide();
+        });
+    $("#ttitle").animate({'font-size': '48px'}, 400);
+}
+
+
+
+function savePlaylist() {
+    loginWithSpotify();
+}
+
+function loginWithSpotify() {
+    var client_id = '59b54cc209ad4049a255495492b2c945';
+    var redirect_uri = 'http://static.echonest.com/enspex/acrostify/saver.html';
+    var redirect_uri = 'http://localhost:8000/saver.html';
+    var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
+        '&response_type=token' +
+        '&scope=playlist-modify-private' +
+        '&redirect_uri=' + encodeURIComponent(redirect_uri);
+    var w = window.open(url, 'asdf', 'WIDTH=400,HEIGHT=500');
+}
+
+
+function error(msg) {
+    info(msg);
+}
+
+function info(msg) {
+    $("#info").text(msg);
+}
+
+
+var songCache = { };
+
+var currentMessage;
+var currentGenre;
+var currentSongs;
+var curSongIndex = 0;
+var curSong;
+
+
+function error(s) {
+    $("#info").addClass("alert-error");
+    $("#info").removeClass("alert-success");
+    $("#info").show();
+    $("#info").text(s);
+}
+
+function info(s) {
+    $("#info").removeClass("alert-error");
+    $("#info").addClass("alert-success");
+    $("#info").show();
+    $("#info").text(s);
+}
+
+function clearError() {
+    $("#info").hide("");
+}
+
+function togglePause() {
+    if ($(audio).get(0).paused) {
+        $(audio).get(0).play();
+    } else {
+        $(audio).get(0).pause();
+    }
+}
+
+function isPlaying() {
+    return ! $(audio).get(0).paused;
+}
+
+
+function setPlaying(playing) {
+    console.log('sp', playing);
+    if (playing) {
+        $("#playPlay i").removeClass("glyphicon-play");
+        $("#playPlay i").addClass("glyphicon-pause");
+    } else {
+        $("#playPlay i").removeClass("glyphicon-pause");
+        $("#playPlay i").addClass("glyphicon-play");
+    }
+}
+
+function playSong(song) {
+    console.log('playing', song['title']);
+    audio.attr('src', song.audio);
+    audio.get(0).play();
+    if (curSong) {
+        curSong.row.removeClass('success');
+    } 
+    curSong = song;
+    curSong.row.addClass('success');
+}
+
+function playNextSong() {
+    curSongIndex++;
+    if (curSongIndex >= currentSongs.length) {
+        curSongIndex = 0;
+    }
+    if (curSongIndex < currentSongs.length) {
+        playSong(currentSongs[curSongIndex]);
+    }
+}
+
+function playPrevSong() {
+    curSongIndex--;
+    if (curSongIndex < 0) {
+        curSongIndex = currentSongs.length - 1;
+    }
+    if (curSongIndex < currentSongs.length) {
+        playSong(currentSongs[curSongIndex]);
+    }
+}
+
+function initAudio() {
+    audio = $("<audio>");
+
+    audio.on('pause', function() {
+        setPlaying(false);
+    });
+
+    audio.on('play', function() {
+        setPlaying(true);
+    });
+
+    audio.on('ended', function() {
+        playNextSong();
+    });
+}
+
+function initUI() {
+    initAudio();
+    $("#results").hide();
+    $("#message").keyup(
+        function(event) {
+            if (event.keyCode == 13) {
+                go();
+            }
+        }
+    );
+
+    $("#save").click(function() {
+        savePlaylist();
+    });
+
+    $("#go").click(function() {
+        console.log('button clicked');
+        go();
+    });
+
+    $("#playNext").click(function() {
+        playNextSong();
+    });
+    $("#playPrev").click(function() {
+        playPrevSong();
+    });
+
+    $("#playPlay").click(function() {
+        if (!audio.attr('src')) {
+            if (currentSongs && currentSongs.length > 0) {
+                playNextSong();
+            }
+        } else {
+            togglePause();
+        }
+    });
+
+    $("#playPause").click(function() {
+        togglePause();
+    }).hide();
+}
+
+function go() {
+    shrinkHeader();
+    console.log('go');
+    var msg = $("#message").val();
+    var genre = $("#genre").val();
+
+    if (msg.length == 0) {
+        error("You must enter a secret message first.");
+    } else if (genre.length == 0) {
+        error("You must pick a genre");
+    } else {
+        generateAcrostic(genre, msg);
+    }
+}
+
+function generateAcrostic(genre, msg) {
+    console.log('generateAcrostic');
+    clearError();
+    currentMessage = normalizeMessage(msg);
+    currentGenre = genre;
+    createSongTable();
+}
+
+function createSongTable() {
+    $("#results").show();
+    var rows = $("#trows");
+    rows.empty();
+
+    currentSongs = [];
+    curSongIndex = -1;
+
+    _.each(currentMessage, function(c, i) {
+        var row = $("<tr>");
+        var char = $("<td class='char'>");
+        char.html('<b>' + c.toUpperCase() + '</b>');
+        var title = $("<td>");
+        if (c == ' ') {
+            title.html('&nbsp;');
+        } else {
+           var song = getMatchingSong(c, currentGenre);
+            if (song) {
+                currentSongs.push(song);
+                title.text(song.title + ' by ' + song.artist_name);
+                song.row = row;
+                row.on("click", function() {
+                    playSong(song);
+                });
+                row.addClass('song-row');
+            }
+        }
+        row.append(char);
+        row.append(title);
+        rows.append(row);
+    });
+    generatePlaylistForSaving(currentSongs);
+
+    if (isPlaying()) {
+        playNextSong();
+    } else {
+        audio.attr('src', null);
+    }
+}
+
+
+function getMatchingSong(c, genre) {
+    var gcache = songCache[genre];
+    if (c in gcache) {
+        var songList = gcache[c];
+        if (songList.length > 0) {
+            var song = songList.shift();
+            songList.push(song);
+            return song;
+        }
+    } else {
+        return getMatchingSong(c, 'rock');
+    }
+    return null;
+}
+
+
+function normalizeMessage(msg) {
+    var msg_array = [];
+
+    _.each(msg, function(c, i) {
+        c = c.toLowerCase();
+        if (c.match(/[a-z]/)) {
+            msg_array.push(c)
+        } else if (msg_array.length > 0 && msg_array[msg_array.length -1] != ' ') {
+            msg_array.push(' ');
+        }
+    });
+
+    return msg_array;
+}
+
+
+
+function shuffle(o){ //v1.0
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
+
+function fetchGenres() {
+    var predefinedGenres = ['rock', 'country', 'pop', 'jazz', 'electronic', 'classical', 'hip hop', 
+    'metal', 'r&b', 'blues', 'folk', 'experimental', 'alternative rock'];
+    var defaultGenre = 'rock';
+
+    predefinedGenres.sort();
+    var glist = $("#genre");
+    _.each(predefinedGenres, function(genre) {
+        var url = 'js/' + genre + '.js';
+        $.getJSON(url, function(data) {
+            songCache[genre] = {};
+
+            _.each(data, function(song) {
+                if (song.audio) {
+                    var letter = song.title[0].toLowerCase();
+                    if (! (letter in songCache[genre])) {
+                        songCache[genre][letter] = [];
+                    }
+                    songCache[genre][letter].push(song);
+                }
+            });
+            _.each(songCache[genre], function(list, key) {
+                shuffle(list);
+            });
+            var opt = $("<option>").attr('value', genre).text(genre);
+            if (genre === defaultGenre) {
+                opt.attr('selected', 'selected');
+            }
+            glist.append(opt);
+        });
+    });
+}
+
+function savePlaylist() {
+    info("Saving the playlist");
+    loginWithSpotify();
+}
+
+
+function generatePlaylistForSaving(songs) {
+    var title = $("#message").val();
+    var tids = [];
+    _.each(songs, function(song) {
+        tids.push(song.uri);
+    });
+
+    var playlist = {
+        title: title,
+        tracks: tids
+    };
+    localStorage.setItem('playlist', JSON.stringify(playlist));
+    console.log('GPFS', playlist);
+}
+
+$(document).ready(function() {
+    $.ajaxSetup( {cache: false});
+    initUI();
+    fetchGenres();
+});
+
+
+</script>
+
+</body>
+</html>

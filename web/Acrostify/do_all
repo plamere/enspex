@@ -1,0 +1,13 @@
+python build_precache.py "alternative rock"
+python build_precache.py blues
+python build_precache.py classical
+python build_precache.py country
+python build_precache.py electronic
+python build_precache.py experimental
+python build_precache.py folk
+python build_precache.py "hip hop"
+python build_precache.py jazz
+python build_precache.py metal
+python build_precache.py pop
+python build_precache.py "r&b"
+python build_precache.py rock
