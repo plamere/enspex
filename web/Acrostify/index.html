@@ -74,7 +74,7 @@
               <button id='playPlay' class="btn btn-default"><i class="glyphicon glyphicon-play"></i></button> </li>
               <button id='playNext' class="btn btn-default"><i class="glyphicon glyphicon-forward"></i></button> </li>
             </span>
-            <button id='save' class="btn btn-primary pull-right">Save to Spotify</button> 
+            <button id='save' class="btn btn-primary pull-right">Save Playlist to Spotify</button> 
         </div>
 
         <table id="song-table" class="table table-bordered table-striped table-hover">
@@ -118,8 +118,8 @@ function savePlaylist() {
 
 function loginWithSpotify() {
     var client_id = '59b54cc209ad4049a255495492b2c945';
-    var redirect_uri = 'http://static.echonest.com/enspex/acrostify/saver.html';
     var redirect_uri = 'http://localhost:8000/saver.html';
+    var redirect_uri = 'http://static.echonest.com/enspex/web/Acrostify/saver.html';
     var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
         '&response_type=token' +
         '&scope=playlist-modify-private' +
@@ -178,7 +178,6 @@ function isPlaying() {
 
 
 function setPlaying(playing) {
-    console.log('sp', playing);
     if (playing) {
         $("#playPlay i").removeClass("glyphicon-play");
         $("#playPlay i").addClass("glyphicon-pause");
@@ -189,7 +188,6 @@ function setPlaying(playing) {
 }
 
 function playSong(song) {
-    console.log('playing', song['title']);
     audio.attr('src', song.audio);
     audio.get(0).play();
     if (curSong) {
@@ -251,7 +249,6 @@ function initUI() {
     });
 
     $("#go").click(function() {
-        console.log('button clicked');
         go();
     });
 
@@ -279,7 +276,6 @@ function initUI() {
 
 function go() {
     shrinkHeader();
-    console.log('go');
     var msg = $("#message").val();
     var genre = $("#genre").val();
 
@@ -293,7 +289,6 @@ function go() {
 }
 
 function generateAcrostic(genre, msg) {
-    console.log('generateAcrostic');
     clearError();
     currentMessage = normalizeMessage(msg);
     currentGenre = genre;
@@ -430,7 +425,6 @@ function generatePlaylistForSaving(songs) {
         tracks: tids
     };
     localStorage.setItem('playlist', JSON.stringify(playlist));
-    console.log('GPFS', playlist);
 }
 
 $(document).ready(function() {

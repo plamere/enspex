@@ -115,6 +115,7 @@ function doit() {
     }
 
     var dataForPlaylist  = JSON.parse(localStorage.getItem('playlist'));
+    localStorage.removeItem('playlist');
 
     getUsername(function(username) {
         createPlaylist(username, dataForPlaylist.title, function(playlist) {
