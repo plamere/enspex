@@ -115,29 +115,31 @@ function doit() {
     }
 
     var dataForPlaylist  = JSON.parse(localStorage.getItem('playlist'));
-    localStorage.removeItem('playlist');
-
-    getUsername(function(username) {
-        createPlaylist(username, dataForPlaylist.title, function(playlist) {
-            if (playlist) {
-                addTracksToPlaylist(username, playlist, dataForPlaylist.tracks, 0, function(ok) {
-                    if (ok) {
-                        $('#playlistlink').attr('href', 
-                            'spotify:user:'+username+':playlist:'+playlist);
-                        $("#title").text(dataForPlaylist.title);
-                        $('#done').show();
-                        $('#creating').hide();
-                    } else {
-                        $('#error').show();
-                        $('#creating').hide();
-                    }
-                });
-            } else {
-                $("#error").show();
-                $('#creating').hide();
-            }
-    });
-  });
+    if (dataForPlaylist) {
+        getUsername(function(username) {
+            createPlaylist(username, dataForPlaylist.title, function(playlist) {
+                if (playlist) {
+                    addTracksToPlaylist(username, playlist, dataForPlaylist.tracks, 0, function(ok) {
+                        if (ok) {
+                            $('#playlistlink').attr('href', 
+                                'spotify:user:'+username+':playlist:'+playlist);
+                            $("#title").text(dataForPlaylist.title);
+                            $('#done').show();
+                            $('#creating').hide();
+                        } else {
+                            $('#error').show();
+                            $('#creating').hide();
+                        }
+                    });
+                } else {
+                    $("#error").show();
+                    $('#creating').hide();
+                }
+        });
+      });
+    } else {
+        console.log("can't find playlist data for saving");
+    }
 }
 
 $(document).ready(

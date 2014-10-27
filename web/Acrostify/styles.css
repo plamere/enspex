@@ -80,3 +80,7 @@ view) */
 .song-row {
     cursor:pointer;
 }
+
+.lead {
+text-align:left;
+}

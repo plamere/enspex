@@ -49,7 +49,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
-                    <p class="lead pull-left"> Genre: </p>
+                    <p class="lead "> Genre: </p>
                     <div id="genre-container">
                         <select id='genre' data-placeholder="Choose a genre" 
                               class="form-control input-md" tabindex="2">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <p class="lead pull-left"> Secret message: </p>
+                    <p class="lead"> Secret message: </p>
                     <input id='message' type="text" 
                         class="form-control input-md" placeholder="Type your secret message">
                 </div>
@@ -112,9 +112,6 @@ function shrinkHeader() {
 
 
 
-function savePlaylist() {
-    loginWithSpotify();
-}
 
 function loginWithSpotify() {
     var client_id = '59b54cc209ad4049a255495492b2c945';
@@ -326,7 +323,6 @@ function createSongTable() {
         row.append(title);
         rows.append(row);
     });
-    generatePlaylistForSaving(currentSongs);
 
     if (isPlaying()) {
         playNextSong();
@@ -409,6 +405,7 @@ function fetchGenres() {
 
 function savePlaylist() {
     info("Saving the playlist");
+    generatePlaylistForSaving(currentSongs);
     loginWithSpotify();
 }
 
@@ -425,6 +422,7 @@ function generatePlaylistForSaving(songs) {
         tracks: tids
     };
     localStorage.setItem('playlist', JSON.stringify(playlist));
+    console.log('saved playlist', localStorage);
 }
 
 $(document).ready(function() {
